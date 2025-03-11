@@ -48,8 +48,11 @@ def seleciona_registros_finais():
     return {"total_registros":total_registros,"list_registros":list_registros}
 
 
-def atualizar_interesse(licitacao_id, novo_interesse):
-    pncp_final.update_one({"id": licitacao_id}, {"$set": {"interesse": novo_interesse}})
+def atualizar_interesse(link, interesse):
+    pncp_final.update_one({"link": link}, {"$set": {"interesse": interesse}})
+
+def atualizar_anotacao(link, anotacao):
+    pncp_final.update_one({"link": link}, {"$set": {"anotacao": anotacao}})
 
 
 if __name__ == "__main__":
