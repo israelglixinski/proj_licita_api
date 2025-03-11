@@ -1,20 +1,20 @@
 from pymongo import MongoClient
+from dotenv import load_dotenv
 from datetime import datetime
 import os
 
 
 # Conexão com o Mongo
 mongopass = os.getenv('MONGO_PASS')
-
 if not mongopass:
-    raise ValueError("A variável de ambiente 'MONGO_PASS' não está definida!")
+    load_dotenv()
+    mongopass = os.getenv('MONGO_PASS')
+    if not mongopass:
+        raise ValueError("A variável de ambiente 'MONGO_PASS' não está definida!")
 
 client = MongoClient(f"mongodb+srv://israelglixinski:{mongopass}@cluster0.kzkzrs2.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
 db = client["licitacao"]
 colecao = db["pncp"]
-
-# Configurar locale para formato monetário brasileiro
-
 
 
 def encontrar_pertinentes():
