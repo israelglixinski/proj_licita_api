@@ -19,14 +19,33 @@ pncp_final = db["pncp_final"]
 
 
 def seleciona_registros_finais():
-    consulta = pncp_final.find()
+
+    agora = datetime.now().strftime('%Y-%m-%dT%H:%M:%S')
+    filtro = {
+        "dataEncerramentoProposta": { 
+            "$gt": agora
+        }
+    }
+    
+    chaves_selecionadas = {
+        "valorTotalEstimado"        : 1
+        ,"dataEncerramentoProposta" : 1
+        ,"objetoCompra"             : 1
+        ,"link"                     : 1
+        ,"interesse"                : 1
+        ,"anotacao"                 : 1
+        ,"_id"                      : 0 
+    }
+    
+
+    total_registros = pncp_final.count_documents(filtro)
+    consulta = pncp_final.find(filtro,chaves_selecionadas)
+
     list_registros = []
     for registro in consulta:
         list_registros.append(registro)
-        # print('\n')
-        # print(registro)
-        # print('\n')
-    return list_registros
+
+    return {"total_registros":total_registros,"list_registros":list_registros}
 
 
 def atualizar_interesse(licitacao_id, novo_interesse):
@@ -35,9 +54,6 @@ def atualizar_interesse(licitacao_id, novo_interesse):
 
 if __name__ == "__main__":
     consulta = seleciona_registros_finais()
-    for registro in consulta:
-        print('\n')
-        print(registro)
-        print('\n')
+    print(consulta)
 
     pass
