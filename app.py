@@ -1,8 +1,10 @@
 from flask import Flask, jsonify, request
+from flask_cors import CORS  # Importando CORS
 import db_mongo
 import json
 
 app = Flask(__name__)
+CORS(app)  # Habilita CORS para toda a API
 
 @app.route('/')
 def home():
@@ -48,10 +50,5 @@ def atualizar_anotacao():
     except Exception as e:
         return jsonify({"erro": str(e)}), 500
 
-
-
-
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-
